@@ -7,10 +7,15 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import axios, { AxiosError } from "axios";
 import { signInSchema } from "@/schemas/signInSchema";
-import { ApiResponse } from "@/types/ApiResponse";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -24,40 +29,38 @@ const SignUpPage = () => {
   const register = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
-      identifier: '',
-      password: ''
-    }
+      identifier: "",
+      password: "",
+    },
   });
 
-
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
-    const result = await signIn('credentials', {
+    const result = await signIn("credentials", {
       identifier: data.identifier,
       password: data.password,
-      redirect: false
+      redirect: false,
     });
 
     if (result?.error) {
-      if (result.error === 'CredentialsSignin') {
+      if (result.error === "CredentialsSignin") {
         toast({
-          title: 'Login failed',
+          title: "Login failed",
           description: "Incorrect credentials",
-          variant: 'destructive'
+          variant: "destructive",
         });
-      } else{
+      } else {
         toast({
-          title: 'Error',
+          title: "Error",
           description: result.error,
-          variant: 'destructive'
+          variant: "destructive",
         });
       }
     }
 
     if (result?.url) {
-      router.replace('/dashboard');
-      
+      router.replace("/dashboard");
     }
-  }
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -71,8 +74,10 @@ const SignUpPage = () => {
           </p>
         </div>
         <Form {...register}>
-          <form className="space-y-6" onSubmit={register.handleSubmit(onSubmit)}>
-            
+          <form
+            className="space-y-6"
+            onSubmit={register.handleSubmit(onSubmit)}
+          >
             <FormField
               name="identifier"
               control={register.control}
@@ -93,10 +98,7 @@ const SignUpPage = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="password"
-                      {...field}
-                    />
+                    <Input placeholder="password" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -105,18 +107,22 @@ const SignUpPage = () => {
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait...
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
+                  wait...
                 </>
               ) : (
-                'Sign In'
+                "Sign In"
               )}
             </Button>
           </form>
         </Form>
         <div>
           <p className="text-sm text-center text-[#010D3E]">
-            Don't have an account?{' '}
-            <Link className="text-orange-600 hover:text-orange-400" href="/sign-up">
+            Don't have an account?{" "}
+            <Link
+              className="text-orange-600 hover:text-orange-400"
+              href="/sign-up"
+            >
               Sign Up here!
             </Link>
           </p>

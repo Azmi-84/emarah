@@ -1,17 +1,28 @@
 "use client";
 
-import { Button } from '@/components/ui/button';
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
-import { useToast } from '@/components/ui/use-toast';
-import { verifySchema } from '@/schemas/verifySchema';
-import { ApiResponse } from '@/types/ApiResponse';
-import { zodResolver } from '@hookform/resolvers/zod';
-import axios, { AxiosError } from 'axios';
-import { useParams, useRouter } from 'next/navigation';
-import React, { useState } from 'react';
-import { Form, useForm } from 'react-hook-form';
-import * as z from 'zod';
+import { Button } from "@/components/ui/button";
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+import { useToast } from "@/components/ui/use-toast";
+import { verifySchema } from "@/schemas/verifySchema";
+import { ApiResponse } from "@/types/ApiResponse";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios, { AxiosError } from "axios";
+import { useParams, useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { Form, useForm } from "react-hook-form";
+import * as z from "zod";
 
 const VerifyAccount = () => {
   const router = useRouter();
@@ -22,7 +33,7 @@ const VerifyAccount = () => {
 
   const onSubmit = async (data: z.infer<typeof verifySchema>) => {
     try {
-      const response = await axios.post('/api/verify-code', {
+      const response = await axios.post("/api/verify-code", {
         username: decodeURIComponent(username),
         code: data.code,
       });
@@ -31,13 +42,13 @@ const VerifyAccount = () => {
         title: "Success",
         description: response.data.message,
       });
-      router.replace('/sign-in');
+      router.replace("/sign-in");
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
-        title: 'Verification Failed',
+        title: "Verification Failed",
         description: axiosError.response?.data.message,
-        variant: 'destructive',
+        variant: "destructive",
       });
     }
   };
@@ -57,9 +68,13 @@ const VerifyAccount = () => {
   );
 };
 
-export function InputOTPForm({ onSubmit }: { onSubmit: (data: z.infer<typeof verifySchema>) => void }) {
+export function InputOTPForm({
+  onSubmit,
+}: {
+  onSubmit: (data: z.infer<typeof verifySchema>) => void;
+}) {
   const { toast } = useToast();
-  
+
   const form = useForm<z.infer<typeof verifySchema>>({
     resolver: zodResolver(verifySchema),
     defaultValues: {
@@ -107,11 +122,10 @@ export function InputOTPForm({ onSubmit }: { onSubmit: (data: z.infer<typeof ver
             </FormItem>
           )}
         />
-        <Button type="submit"
-        >Submit</Button>
+        <Button type="submit">Submit</Button>
       </form>
     </Form>
   );
-};
+}
 
 export default VerifyAccount;

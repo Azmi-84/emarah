@@ -125,10 +125,15 @@ const SignUpPage = () => {
           <h1 className="section-title text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
             Join Emarah
           </h1>
-          <p className="mb-4 text-[#010D3E]">Sign up to start your anonymous adventure</p>
+          <p className="mb-4 text-[#010D3E]">
+            Sign up to start your anonymous adventure
+          </p>
         </div>
         <Form {...register}>
-          <form className="space-y-6" onSubmit={register.handleSubmit(onSubmit)}>
+          <form
+            className="space-y-6"
+            onSubmit={register.handleSubmit(onSubmit)}
+          >
             <FormField
               name="username"
               control={register.control}
@@ -212,11 +217,14 @@ const SignUpPage = () => {
             />
             <Button
               type="submit"
-              disabled={isSubmitting || isCheckingUsername || isCheckingPassword}
+              disabled={
+                isSubmitting || isCheckingUsername || isCheckingPassword
+              }
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait...
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
+                  wait...
                 </>
               ) : (
                 "Sign Up"
@@ -227,7 +235,10 @@ const SignUpPage = () => {
         <div>
           <p className="text-sm text-center text-[#010D3E]">
             Already have an account?{" "}
-            <Link className="text-orange-600 hover:text-orange-400" href="/sign-in">
+            <Link
+              className="text-orange-600 hover:text-orange-400"
+              href="/sign-in"
+            >
               Sign in here!
             </Link>
           </p>

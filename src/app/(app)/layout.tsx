@@ -17,9 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-        <body className={twMerge(dm_Sans.className, "antialiased bg-[#eaeefe]")}>
-          {children}
-        </body>
+      <body className={twMerge(dm_Sans.className, "antialiased bg-[#eaeefe]")}>
+        {children}
+      </body>
     </html>
   );
 }

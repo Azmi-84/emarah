@@ -5,7 +5,7 @@ import { passwordValidation } from "@/schemas/signUpSchema";
 import bcrypt from "bcryptjs";
 
 const PasswordQuerySchema = z.object({
-  password: passwordValidation
+  password: passwordValidation,
 });
 
 export async function GET(request: Request) {
@@ -16,10 +16,13 @@ export async function GET(request: Request) {
     const password = searchParams.get("password");
 
     if (!password) {
-      return new Response(JSON.stringify({
-        success: false,
-        message: "Password is required",
-      }), { status: 400 });
+      return new Response(
+        JSON.stringify({
+          success: false,
+          message: "Password is required",
+        }),
+        { status: 400 }
+      );
     }
 
     console.log("Received password query:", password);
@@ -32,32 +35,43 @@ export async function GET(request: Request) {
     if (existingUser) {
       const isMatch = await bcrypt.compare(password, existingUser.password);
       if (isMatch) {
-        return new Response(JSON.stringify({
-          success: false,
-          message: "Password already exists",
-        }), { status: 400 });
+        return new Response(
+          JSON.stringify({
+            success: false,
+            message: "Password already exists",
+          }),
+          { status: 400 }
+        );
       }
     }
 
     // The password strength is already validated by the schema
-    return new Response(JSON.stringify({
-      success: true,
-      message: "Password is valid and unique",
-    }), { status: 200 });
-
+    return new Response(
+      JSON.stringify({
+        success: true,
+        message: "Password is valid and unique",
+      }),
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error checking password: ", error);
 
     if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify({
-        success: false,
-        message: error.errors,
-      }), { status: 400 });
+      return new Response(
+        JSON.stringify({
+          success: false,
+          message: error.errors,
+        }),
+        { status: 400 }
+      );
     }
 
-    return new Response(JSON.stringify({
-      success: false,
-      message: "Internal server error",
-    }), { status: 500 });
+    return new Response(
+      JSON.stringify({
+        success: false,
+        message: "Internal server error",
+      }),
+      { status: 500 }
+    );
   }
 }
