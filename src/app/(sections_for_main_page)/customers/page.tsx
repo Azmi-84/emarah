@@ -4,7 +4,7 @@ import React from "react";
 import Header from "@/sections/Header";
 import Footer from "@/sections/Footer";
 
-const customers = () => {
+const Customers = () => {
   return (
     <>
       <Header />
@@ -13,4 +13,4 @@ const customers = () => {
   );
 };
 
-export default customers;
+export default Customers;

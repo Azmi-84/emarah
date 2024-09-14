@@ -4,7 +4,7 @@ import React from "react";
 import Header from "@/sections/Header";
 import Footer from "@/sections/Footer";
 
-const help = () => {
+const Help = () => {
   return (
     <>
       <Header />
@@ -13,4 +13,4 @@ const help = () => {
   );
 };
 
-export default help;
+export default Help;

@@ -4,7 +4,7 @@ import React from "react";
 import Header from "@/sections/Header";
 import Footer from "@/sections/Footer";
 
-const features = () => {
+const Features = () => {
   return (
     <>
       <Header />
@@ -13,4 +13,4 @@ const features = () => {
   );
 };
 
-export default features;
+export default Features;

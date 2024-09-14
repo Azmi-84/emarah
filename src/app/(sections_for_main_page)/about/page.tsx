@@ -55,11 +55,11 @@ const About = () => {
               Secure and Anonymous Connections
             </h2>
             <p className="section-description mt-5">
-              At Emarah, we understand the importance of privacy. That's why
-              we've built our platform with top-notch security measures to
-              ensure your anonymity is always protected. Your messages are
-              encrypted and safely stored, giving you peace of mind as you
-              connect with others.
+              At Emarah, we understand the importance of privacy. That&rsquo;s
+              why we&rsquo;ve built our platform with top-notch security
+              measures to ensure your anonymity is always protected. Your
+              messages are encrypted and safely stored, giving you peace of mind
+              as you connect with others.
             </p>
             <motion.div className="relative">
               <Image
