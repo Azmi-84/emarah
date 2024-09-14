@@ -28,8 +28,6 @@ const VerifyAccount = () => {
   const router = useRouter();
   const { username } = useParams<{ username: string }>();
   const { toast } = useToast();
-  // const [isCheckingVerficationCode, setIsCheckingVerficationCode] = useState(false);
-  // const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onSubmit = async (data: z.infer<typeof verifySchema>) => {
     try {
