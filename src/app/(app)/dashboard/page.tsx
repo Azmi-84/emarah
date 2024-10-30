@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { Message } from "@/model/User";
+import { Message, User } from "@/model/User";
 import { acceptMessageSchema } from "@/schemas/acceptMessageSchema";
 import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,8 +14,6 @@ import { Switch } from "@nextui-org/switch";
 import { Separator } from "@/components/ui/separator";
 import { Loader2, RefreshCcw } from "lucide-react";
 import MessageCard from "@/components/MessageCard";
-import { User } from "next-auth";
-import { NextResponse, NextRequest } from "next/server";
 import { motion } from "framer-motion";
 
 const Dashboard = () => {
@@ -29,7 +27,7 @@ const Dashboard = () => {
     resolver: zodResolver(acceptMessageSchema),
   });
   const { register, watch, setValue } = form;
-  const acceptMessages = watch("acceptMessages");
+  const acceptMessage = watch("acceptMessage"); // Singular
 
   const handleDeleteMessage = (messageId: string) => {
     setMessages(messages.filter((message) => message._id !== messageId));
@@ -39,7 +37,7 @@ const Dashboard = () => {
     setIsLoading(true);
     try {
       const response = await axios.get<ApiResponse>("/api/accept-messages");
-      setValue("acceptMessages", response.data.isAcceptingMessages);
+      setValue("acceptMessage", response.data.isAcceptingMessages); // Singular
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
@@ -89,15 +87,15 @@ const Dashboard = () => {
     }
     fetchMessages();
     fetchAcceptMessages();
-  }, [session, fetchAcceptMessages, fetchMessages]);
+  }, [session, setValue, fetchAcceptMessages, fetchMessages]);
 
   const handleSwitchChange = async () => {
     setIsSwitchLoading(true);
     try {
       const response = await axios.post<ApiResponse>("/api/accept-messages", {
-        isAcceptingMessages: !acceptMessages,
+        acceptMessage: !acceptMessage, // Singular
       });
-      setValue("acceptMessages", !acceptMessages);
+      setValue("acceptMessage", !acceptMessage); // Singular
       toast({
         title: response.data.message,
         description: "Accept messages status updated",
@@ -117,12 +115,20 @@ const Dashboard = () => {
     }
   };
 
-  const { username } = session?.user as User;
-  const baseUrl = `${window.location.protocol}//${window.location.host}`;
-  const profileUrl = `${baseUrl}/${username}`;
+  const [profileUrl, setProfileUrl] = useState<string>("");
+  const { username } = (session?.user as User) || "";
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && username) {
+      const baseUrl = `${window.location.protocol}//${window.location.host}/publicpage/`;
+      setProfileUrl(`${baseUrl}${username}`);
+    }
+  }, [username]);
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(profileUrl);
+    if (profileUrl) {
+      navigator.clipboard.writeText(profileUrl);
+    }
     toast({
       title: "Copied",
       description: "Profile link copied to clipboard",
@@ -131,66 +137,94 @@ const Dashboard = () => {
   };
 
   if (!session || !session.user) {
-    return NextResponse.redirect(new URL("/sign-in"));
+    return <div>Please log in</div>;
   }
 
   return (
-    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
-      <h1 className="text-4xl font-bold mb-4">Dashboard</h1>
-      <div className="mb-4">
-        <h2 className="text-lg font-semibold mb-2">Copy your unique link</h2>
-        <motion.div whileHover={{ scale: 1.05 }} className="flex items-center">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4 }}
+      className="min-h-screen md:min-h-screen lg:min-h-screen p-6 bg-blue-50 w-full shadow-md"
+    >
+      <h1 className="section-title text-4xl font-extrabold tracking-tight lg:text-5xl mb-6 text-center">
+        Dashboard
+      </h1>
+
+      {/* Profile URL Section */}
+      <div className="mb-6">
+        <h2 className="text-xl font-semibold mb-4 tracking-tight text-[#010D3E]">
+          Copy your unique link
+        </h2>
+        <motion.div whileHover={{ scale: 1.0 }} className="flex items-center">
           <input
             type="text"
             value={profileUrl}
             disabled
-            className="input input-bordered w-full p-2 mr-2"
+            className="w-full p-3 rounded-lg border border-gray-300 mr-4 text-[#010D3E]"
           />
-          <Button onClick={copyToClipboard}>Copy</Button>
+          <Button onClick={copyToClipboard} className="py-3 px-6">
+            Copy
+          </Button>
         </motion.div>
       </div>
-      <div className="mb-4">
+
+      {/* Accept Messages Toggle */}
+      <div className="mb-6 flex items-center">
         <Switch
-          {...register("acceptMessages")}
-          checked={acceptMessages}
+          {...register("acceptMessage")} // Singular
+          checked={acceptMessage} // Singular
           onChange={handleSwitchChange}
           disabled={isSwitchLoading}
         />
-        {/* onChange instead of onCheckedChange */}
-        <span className="ml-2">
-          Accept Messages: {acceptMessages ? "ON" : "OFF"}
+        <span className="ml-2 text-lg text-[#010D3E]">
+          Accept Messages: {acceptMessage ? "ON" : "OFF"}
         </span>
       </div>
-      <Separator />
-      <Button
-        className="mt-4"
-        variant="outline"
-        onClick={(e) => {
-          e.preventDefault();
-          fetchMessages(true);
-        }}
-      >
-        {isLoading ? (
-          <Loader2 className="h-4 w-4 animate-spin" />
-        ) : (
-          <RefreshCcw className="h-4 w-4" />
-        )}
-      </Button>
-      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <Separator className="my-6" />
+
+      {/* Refresh Messages */}
+      <div className="flex justify-items-start mb-6">
+        <Button
+          variant="outline"
+          onClick={(e) => {
+            e.preventDefault();
+            fetchMessages(true);
+          }}
+          className="py-3 px-6"
+        >
+          {isLoading ? (
+            <Loader2 className="h-5 w-5 animate-spin" />
+          ) : (
+            <RefreshCcw className="h-5 w-5" />
+          )}
+        </Button>
+      </div>
+
+      {/* Message Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {messages.length > 0 ? (
-          messages.map((message, index) => (
-            <MessageCard
+          messages.map((message) => (
+            <motion.div
               key={message._id as string}
-              message={message}
-              onMessageDelete={handleDeleteMessage}
-            />
-            // Assuming message.id is the unique identifier
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.1 }}
+            >
+              <MessageCard
+                message={message}
+                onMessageDelete={handleDeleteMessage}
+              />
+            </motion.div>
           ))
         ) : (
-          <p>No messages to display</p>
+          <p className="grid grid-cols-1 md:grid-cols-2 text-center text-gray-600">
+            No messages to display
+          </p>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
