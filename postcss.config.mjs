@@ -1,13 +1,13 @@
 /** @type {import('postcss-load-config').Config} */
-const purgecss = require('@fullhuman/postcss-purgecss')
+// const purgecss = require('@fullhuman/postcss-purgecss')
 const config = {
   plugins: {
     tailwindcss: {},
-    autoprefixer: ({
-      content: [
-        './**/*.html'
-      ]
-    }),
+    // autoprefixer: ({
+    //   content: [
+    //     './**/*.html'
+    //   ]
+    // }),
   },
 };
 

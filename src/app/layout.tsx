@@ -3,8 +3,8 @@ import { DM_Sans, Inter } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/context/AuthProvider";
 import { Toaster } from "@/components/ui/toaster";
-import { Analytics } from '@vercel/analytics/next';
-import { SpeedInsights } from '@vercel/speed-insights/next';
+// import { Analytics } from '@vercel/analytics/next';0
+// import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const dm_Sans = DM_Sans({ subsets: ["latin"] });
 
@@ -23,8 +23,8 @@ export default function RootLayout({
       <AuthProvider>
         <body className={dm_Sans.className}>
           {children}
-          <Analytics />
-          <SpeedInsights />
+          {/* <Analytics /> */}
+          {/* <SpeedInsights /> */}
           <Toaster />
         </body>
       </AuthProvider>
