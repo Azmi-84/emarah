@@ -22,10 +22,10 @@ import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
 
 const SignUpPage = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
   const register = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -35,6 +35,7 @@ const SignUpPage = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
+    setIsSubmitting(true);
     const result = await signIn("credentials", {
       identifier: data.identifier,
       password: data.password,
@@ -56,12 +57,13 @@ const SignUpPage = () => {
         });
       }
     }
-
+    
     if (result?.url) {
       router.replace("/dashboard");
     }
   };
-
+  const { formState: { errors } } = register;
+  
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
@@ -85,9 +87,8 @@ const SignUpPage = () => {
                 <FormItem>
                   <FormLabel>Username</FormLabel>
                   <FormControl>
-                    <Input placeholder="username" {...field} />
+                    <Input placeholder="username" {...field} className={errors.identifier ? "border-red-500" : ""} />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -98,7 +99,7 @@ const SignUpPage = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="password" {...field} />
+                    <Input placeholder="password" {...field} className={errors.password ? "border-red-500" : ""} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -120,7 +121,7 @@ const SignUpPage = () => {
           <p className="text-sm text-center text-[#010D3E]">
             Don&rsquo;t have an account?{" "}
             <Link
-              className="text-orange-600 hover:text-orange-400"
+              className="text-blue-600 hover:text-blue-400"
               href="/sign-up"
             >
               Sign Up here!

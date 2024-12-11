@@ -7,56 +7,44 @@ import { motion } from "framer-motion";
 
 const pricingTiers = [
   {
-    title: "Free",
+    title: "Community",
     monthlyPrice: 0,
-    buttonText: "Get started for free",
+    buttonText: "Join for free",
     popular: false,
     inverse: false,
     features: [
-      "Anonymous messaging",
-      "AI-powered suggestions",
-      "Unlimited messages",
-      "2GB storage",
-      "Basic support and features",
+      "Completely free access",
+      "Unlimited anonymous messaging",
+      "Basic AI-powered suggestions",
     ],
   },
   {
-    title: "Pro",
-    monthlyPrice: 4.99,
-    buttonText: "Sign up now",
+    title: "Supporter",
+    monthlyPrice: 5,
+    buttonText: "Contribute now",
     popular: true,
     inverse: true,
     features: [
-      "Enhanced privacy features",
-      "Unlimited anonymous messaging",
-      "Enhanced AI message suggestions",
-      "50GB storage",
-      "Priority support",
-      "Advanced AI suggestions",
-      "Message export",
-      "Early access to new features",
+      "All Community features",
+      "Enhanced AI suggestions",
+      "Priority bug fixes",
+      "Early access to new tools",
+      "Support the platform's growth",
     ],
   },
   {
-    title: "Business",
-    monthlyPrice: 9.99,
-    buttonText: "Sign up now",
+    title: "Sponsor",
+    monthlyPrice: 15,
+    buttonText: "Become a sponsor",
     popular: false,
     inverse: false,
     features: [
-      "Custom anonymity settings",
-      "Unlimited anonymous messaging",
-      "200GB storage",
-      "Dedicated account manager",
-      "Advanced analytics",
-      "API access",
-      "Enterprise-level security",
-      "Custom AI training",
-      "24/7 premium support",
+      "All Supporter features",
       "Custom branding options",
-      "Priority feature requests",
-      "Customizable anonymity settings",
-      "Enterprise-level privacy and security",
+      "API access for automation",
+      "Feature prioritization",
+      "Direct collaboration opportunities",
+      "Help sustain free access for all users",
     ],
   },
 ];
@@ -66,10 +54,9 @@ const Pricing = () => {
     <section className="py-24 bg-white">
       <div className="container">
         <div className="section-heading">
-          <h2 className="section-title">Pricing</h2>
+          <h2 className="section-title">Plans & Support</h2>
           <p className="section-description mt-5">
-            Always Free to Use. Upgrade for enhanced privacy, advanced features,
-            and unlimited messaging.
+            Empowering everyone with free and accessible tools. Support us to help the platform grow and thrive.
           </p>
         </div>
         <div className="flex flex-col gap-6 items-center mt-10 lg:flex-row lg:items-end lg:justify-center">
@@ -139,8 +126,8 @@ const Pricing = () => {
                   {buttonText}
                 </button>
                 <ul className="flex flex-col gap-5 mt-8">
-                  {features.map((feature) => (
-                    <li className="text-sm flex items-center gap-4">
+                  {features.map((feature, index) => (
+                    <li key={index} className="text-sm flex items-center gap-4">
                       <CheckIcon className="h-6 w-6" />
                       <span>{feature}</span>
                     </li>

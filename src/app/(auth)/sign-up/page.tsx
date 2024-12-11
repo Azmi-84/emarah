@@ -118,6 +118,7 @@ const SignUpPage = () => {
     }
   };
 
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
@@ -236,7 +237,7 @@ const SignUpPage = () => {
           <p className="text-sm text-center text-[#010D3E]">
             Already have an account?{" "}
             <Link
-              className="text-orange-600 hover:text-orange-400"
+              className="text-blue-600 hover:text-blue-400"
               href="/sign-in"
             >
               Sign in here!

@@ -7,7 +7,7 @@ import socialPin from "@/assets/social-pin.png";
 import socialInsta from "@/assets/social-insta.png";
 import socialYoutube from "@/assets/social-youtube.png";
 import socialDiscord from "@/assets/social-discord.png";
-import { CircuitBoardIcon } from "lucide-react";
+import logo from "@/assets/Logo.png";
 
 const Footer = () => {
   const menuItems = [
@@ -19,54 +19,51 @@ const Footer = () => {
   ];
 
   const imageItems = [
-    { src: socialX, alt: "Social X", label: "Social X", href: "" },
-    {
-      src: socialYoutube,
-      alt: "Social Youtube",
-      label: "Social Youtube",
-      href: "",
-    },
-    {
-      src: socialInsta,
-      alt: "Social Instagram",
-      label: "Social Instragram",
-      href: "",
-    },
-    {
-      src: socialDiscord,
-      alt: "Social Discord",
-      label: "Social Discord",
-      href: "",
-    },
-    {
-      src: socialPin,
-      alt: "Social Pinterest",
-      label: "Social Pinterest",
-      href: "",
-    },
+    { src: socialX, alt: "Social X", href: "" },
+    { src: socialYoutube, alt: "Social YouTube", href: "" },
+    { src: socialInsta, alt: "Social Instagram", href: "" },
+    { src: socialDiscord, alt: "Social Discord", href: "" },
+    { src: socialPin, alt: "Social Pinterest", href: "" },
   ];
 
   return (
-    <footer className="bg-black text-[#BCBCBC] text-sm py-10 text-center">
-      <div className="container">
-        <div className='inline-flex relative before:content-[""] before:top-0 before:bottom-0 before:h-full before:blur before:w-full before:bg-[linear-gradient(to_right,#F87BFF,#FB92CF,#FFDD9B,#C2F0B1,#2FD8FE,#FB92CF,#FFDD9B,#C2F0B1,#2FD8FE,#FB92CF)] before:absolute'>
-          <CircuitBoardIcon className="h-10 w-10 relative text-black" />
+    <footer className="bg-gradient-to-t from-black via-gray-900 to-gray-800 text-gray-400 text-sm py-10">
+      <div className="container mx-auto px-4 text-center">
+        {/* Logo Section */}
+        <div className="flex justify-center items-center mb-6">
+          <Image src={logo} alt="Logo" width={40} height={40} className="rounded-full" />
         </div>
-        <nav className="flex flex-col md:flex-row md:justify-center gap-6 mt-6">
+
+        {/* Navigation Links */}
+        <nav className="flex flex-col md:flex-row justify-center gap-6 mt-6">
           {menuItems.map((item, index) => (
-            <a key={index} href={item.href} className="hover:text-white">
+            <a
+              key={index}
+              href={item.href}
+              className="hover:text-white transition-colors duration-300"
+            >
               {item.label}
             </a>
           ))}
         </nav>
-        <div className="flex justify-center gap-6 mt-6">
+
+        {/* Social Media Links */}
+        <div className="flex justify-center gap-4 mt-6">
           {imageItems.map((item, index) => (
-            <a key={index} href={item.href}>
+            <a
+              key={index}
+              href={item.href}
+              className="hover:scale-110 transition-transform duration-300"
+            >
               <Image src={item.src} alt={item.alt} width={24} height={24} />
             </a>
           ))}
         </div>
-        <p className="mt-6">&copy; 2024 Emarah.Inc. All rights reserved.</p>
+
+        {/* Footer Text */}
+        <p className="mt-6 text-gray-500 hover:text-gray-300 transition-colors duration-300">
+          &copy; 2024 Emarah Inc. All rights reserved.
+        </p>
       </div>
     </footer>
   );

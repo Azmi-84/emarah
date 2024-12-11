@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import {
+  Form,
   FormControl,
   FormDescription,
   FormField,
@@ -21,7 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
-import { Form, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 const VerifyAccount = () => {
@@ -58,7 +59,7 @@ const VerifyAccount = () => {
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
             Verify Your Account
           </h1>
-          <p className="mb-4">User Verification</p>
+          <p className="mb-4 font-medium">User Verification</p>
         </div>
         <InputOTPForm onSubmit={onSubmit} />
       </div>
@@ -82,28 +83,28 @@ export function InputOTPForm({
 
   const handleSubmit = (data: z.infer<typeof verifySchema>) => {
     onSubmit(data);
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+    // toast({
+    //   title: "You submitted the following values:",
+    //   description: (
+    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+    //     </pre>
+    //   ),
+    // });
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+    <Form {...form} >
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="code"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>One-Time Password</FormLabel>
-              <FormControl>
+            <FormItem className="space-y-2">
+              <FormLabel className="block text-sm font-medium text-gray-900">One-Time Password</FormLabel>
+              <FormControl className="flex justify-center items-center">
                 <InputOTP maxLength={6} {...field}>
-                  <InputOTPGroup>
+                  <InputOTPGroup className="space-x-2">
                     <InputOTPSlot index={0} />
                     <InputOTPSlot index={1} />
                     <InputOTPSlot index={2} />
@@ -113,14 +114,14 @@ export function InputOTPForm({
                   </InputOTPGroup>
                 </InputOTP>
               </FormControl>
-              <FormDescription>
+              <FormDescription className="text-sm text-gray-500">
                 Please enter the one-time password sent to your phone.
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" className="w-full">Submit</Button>
       </form>
     </Form>
   );
