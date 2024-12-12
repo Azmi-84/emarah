@@ -44,7 +44,7 @@ const Hero = () => {
           </div>
           <div className="mt-20 md:mt-0 md:h-[648px] md:flex-1 relative">
             <motion.div
-              className="md:absolute md:h-full md:w-auto md:max-w-none md:-left-6 lg:left-0"
+              className="md:absolute md:h-full md:w-auto md:max-w-none md:-left-6 lg:left-[50%]"
               animate={{
                 translateY: [-30, 30],
               }}
@@ -59,7 +59,7 @@ const Hero = () => {
               <Image src={cogImage} alt="Cog Image" width={500} height={500} />
             </motion.div>
             <motion.div
-              className="hidden md:block md:absolute -top-8 -left-32"
+              className="hidden md:block md:absolute -top-8 left-[25%]"
               style={{
                 translateY: translateY,
               }}
@@ -72,7 +72,7 @@ const Hero = () => {
               />
             </motion.div>
             <motion.div
-              className="hidden lg:block absolute top-[524px] left-[448px]"
+              className="hidden lg:block absolute top-[524px] left-[70%]"
               style={{
                 rotate: "30deg",
                 translateY: translateY,

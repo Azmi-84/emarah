@@ -17,7 +17,7 @@ export async function POST(req: Request) {
       "Generate three distinct, open-ended, and engaging questions in a single string, separated by '||'. These questions are designed for an anonymous social messaging platform similar to Qooh.com, aiming to resonate with a broad and diverse audience. Focus on universal themes that spark curiosity, foster friendly and inclusive discussions, and encourage thoughtful sharing. Avoid personal, sensitive, or controversial topics. The questions should be fresh, inviting, and adaptable to anyone’s experience, helping to create a warm and welcoming environment. Examples include: 'What’s the most interesting thing you’ve learned this week?||If you could have a conversation with any historical figure, who would it be and why?||What’s a small act of kindness that someone has done for you that you’ll never forget?'. Ensure that each set of questions is unique, thought-provoking, and promotes a sense of connection and discovery.";
 
     const result = await generateText({
-      model: groq("llama-3.1-70b-versatile"),
+      model: groq("llama-3.3-70b-versatile"),
       prompt,
       maxTokens: 200,
     });

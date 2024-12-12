@@ -53,7 +53,7 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 w-full z-20 backdrop-blur-sm transition-transform duration-500 ${
+      className={`sticky top-0 w-full z-20 backdrop-blur-sm transition-transform duration-500 ${
         isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
@@ -72,7 +72,7 @@ const Header = () => {
       <div className="py-5 bg-transparent backdrop:blur-3xl">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
-            <Image src={Logo} alt="Emarah" height={56} width={56} className="rounded" />
+            <Image src={Logo} alt="Emarah" height={56} width={56} className="rounded-full" />
             <div className="md:hidden">
               <Image
                 src={isMenuOpen ? deleteIcon : MenuIcon}
