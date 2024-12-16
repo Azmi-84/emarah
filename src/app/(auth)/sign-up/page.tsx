@@ -22,6 +22,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion"; // Importing Framer Motion
 
 const SignUpPage = () => {
   const [username, setUsername] = useState("");
@@ -118,14 +119,28 @@ const SignUpPage = () => {
     }
   };
 
-
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+    <motion.div
+      className="flex justify-center items-center min-h-screen bg-gray-100"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <motion.div
+        className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md"
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="text-center">
-          <h1 className="section-title text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
+          <motion.h1
+            className="section-title text-4xl font-extrabold tracking-tight lg:text-5xl mb-6"
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.3 }}
+          >
             Join Emarah
-          </h1>
+          </motion.h1>
           <p className="mb-4 text-[#010D3E]">
             Sign up to start your anonymous adventure
           </p>
@@ -143,7 +158,8 @@ const SignUpPage = () => {
                   <FormLabel>Username</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="username"
+                      placeholder="Enter your username"
+                      className="border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                       {...field}
                       onChange={(e) => {
                         field.onChange(e);
@@ -174,9 +190,13 @@ const SignUpPage = () => {
               control={register.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>E-mail</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="e-mail" {...field} />
+                    <Input
+                      placeholder="Enter your email"
+                      className="border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -190,7 +210,9 @@ const SignUpPage = () => {
                   <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="password"
+                      placeholder="Enter your password"
+                      type="password"
+                      className="border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                       {...field}
                       onChange={(e) => {
                         field.onChange(e);
@@ -244,8 +266,8 @@ const SignUpPage = () => {
             </Link>
           </p>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

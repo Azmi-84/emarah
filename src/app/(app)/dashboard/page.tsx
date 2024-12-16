@@ -1,3 +1,5 @@
+// Updated Dashboard with Modern UI and Framer Motion Animations
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -27,7 +29,7 @@ const Dashboard = () => {
     resolver: zodResolver(acceptMessageSchema),
   });
   const { register, watch, setValue } = form;
-  const acceptMessage = watch("acceptMessage"); // Singular
+  const acceptMessage = watch("acceptMessage");
 
   const handleDeleteMessage = (messageId: string) => {
     setMessages(messages.filter((message) => message._id !== messageId));
@@ -37,14 +39,12 @@ const Dashboard = () => {
     setIsLoading(true);
     try {
       const response = await axios.get<ApiResponse>("/api/accept-messages");
-      setValue("acceptMessage", response.data.isAcceptingMessages); // Singular
+      setValue("acceptMessage", response.data.isAcceptingMessages);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
         title: "Error",
-        description:
-          axiosError.response?.data.message ||
-          "Failed to fetch accept messages",
+        description: axiosError.response?.data.message || "Failed to fetch accept messages",
         variant: "destructive",
       });
     } finally {
@@ -52,39 +52,33 @@ const Dashboard = () => {
     }
   }, [setValue, toast]);
 
-  const fetchMessages = useCallback(
-    async (refresh: boolean = false) => {
-      setIsLoading(true);
-      setIsSwitchLoading(false);
-      try {
-        const response = await axios.get<ApiResponse>("/api/get-messages");
-        setMessages(response.data.messages || []);
-        if (refresh) {
-          toast({
-            title: "Refreshed messages",
-            description: "Showing latest messages",
-          });
-        }
-      } catch (error) {
-        const axiosError = error as AxiosError<ApiResponse>;
+  const fetchMessages = useCallback(async (refresh: boolean = false) => {
+    setIsLoading(true);
+    setIsSwitchLoading(false);
+    try {
+      const response = await axios.get<ApiResponse>("/api/get-messages");
+      setMessages(response.data.messages || []);
+      if (refresh) {
         toast({
-          title: "Error",
-          description:
-            axiosError.response?.data.message || "Failed to fetch messages",
-          variant: "destructive",
+          title: "Refreshed messages",
+          description: "Showing latest messages",
         });
-      } finally {
-        setIsLoading(false);
-        setIsSwitchLoading(false);
       }
-    },
-    [setMessages, toast]
-  );
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiResponse>;
+      toast({
+        title: "Error",
+        description: axiosError.response?.data.message || "Failed to fetch messages",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+      setIsSwitchLoading(false);
+    }
+  }, [setMessages, toast]);
 
   useEffect(() => {
-    if (!session || !session.user) {
-      return;
-    }
+    if (!session || !session.user) return;
     fetchMessages();
     fetchAcceptMessages();
   }, [session, setValue, fetchAcceptMessages, fetchMessages]);
@@ -93,9 +87,9 @@ const Dashboard = () => {
     setIsSwitchLoading(true);
     try {
       const response = await axios.post<ApiResponse>("/api/accept-messages", {
-        acceptMessage: !acceptMessage, // Singular
+        acceptMessage: !acceptMessage,
       });
-      setValue("acceptMessage", !acceptMessage); // Singular
+      setValue("acceptMessage", !acceptMessage);
       toast({
         title: response.data.message,
         description: "Accept messages status updated",
@@ -105,9 +99,7 @@ const Dashboard = () => {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
         title: "Error",
-        description:
-          axiosError.response?.data.message ||
-          "Failed to update accept messages",
+        description: axiosError.response?.data.message || "Failed to update accept messages",
         variant: "destructive",
       });
     } finally {
@@ -126,9 +118,7 @@ const Dashboard = () => {
   }, [username]);
 
   const copyToClipboard = () => {
-    if (profileUrl) {
-      navigator.clipboard.writeText(profileUrl);
-    }
+    if (profileUrl) navigator.clipboard.writeText(profileUrl);
     toast({
       title: "Copied",
       description: "Profile link copied to clipboard",
@@ -145,18 +135,17 @@ const Dashboard = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
-      className="min-h-screen md:min-h-screen lg:min-h-screen p-6 bg-blue-50 w-full shadow-md"
+      className="min-h-screen p-6 bg-blue-50 w-full shadow-md"
     >
-      <h1 className="section-title text-4xl font-extrabold tracking-tight lg:text-5xl mb-6 text-center">
+      <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6 text-center">
         Dashboard
       </h1>
 
-      {/* Profile URL Section */}
       <div className="mb-6">
         <h2 className="text-xl font-semibold mb-4 tracking-tight text-[#010D3E]">
           Copy your unique link
         </h2>
-        <motion.div whileHover={{ scale: 1.0 }} className="flex items-center">
+        <motion.div whileHover={{ scale: 1.05 }} className="flex items-center">
           <input
             type="text"
             value={profileUrl}
@@ -169,11 +158,10 @@ const Dashboard = () => {
         </motion.div>
       </div>
 
-      {/* Accept Messages Toggle */}
       <div className="mb-6 flex items-center">
         <Switch
-          {...register("acceptMessage")} // Singular
-          checked={acceptMessage} // Singular
+          {...register("acceptMessage")}
+          checked={acceptMessage}
           onChange={handleSwitchChange}
           disabled={isSwitchLoading}
         />
@@ -184,7 +172,6 @@ const Dashboard = () => {
 
       <Separator className="my-6" />
 
-      {/* Refresh Messages */}
       <div className="flex justify-items-start mb-6">
         <Button
           variant="outline"
@@ -202,7 +189,6 @@ const Dashboard = () => {
         </Button>
       </div>
 
-      {/* Message Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {messages.length > 0 ? (
           messages.map((message) => (
@@ -219,9 +205,7 @@ const Dashboard = () => {
             </motion.div>
           ))
         ) : (
-          <p className="grid grid-cols-1 md:grid-cols-2 text-center text-gray-600">
-            No messages to display
-          </p>
+          <p className="text-center text-gray-600">No messages to display</p>
         )}
       </div>
     </motion.div>

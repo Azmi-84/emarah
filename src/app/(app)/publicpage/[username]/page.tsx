@@ -6,7 +6,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { messageValidation } from '@/schemas/messageSchema';
 import { ApiResponse } from '@/types/ApiResponse';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import axios, { AxiosError } from 'axios';
 import { Loader2 } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
@@ -14,6 +14,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Separator } from '@radix-ui/react-separator';
+import { motion } from 'framer-motion';
 
 const PublicPage = () => {
   const { username } = useParams<{ username: string }>();
@@ -84,12 +85,22 @@ const PublicPage = () => {
   };
 
   return (
-    <div className='flex justify-center items-center overflow-hidden min-h-screen bg-gradient-to-b from-white to-[#D2DCFF]'>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className='flex justify-center items-center overflow-hidden min-h-screen bg-gradient-to-b from-white to-[#D2DCFF]'
+    >
       <div className="container">
-        <div className='section-heading text-center mb-6'>
+        <motion.div
+          className='section-heading text-center mb-6'
+          initial={{ scale: 0.95 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.4 }}
+        >
           <h2 className='section-title text-2xl font-bold'>Public Profile Link</h2>
           <p className='section-description text-gray-600'>Send your message anonymously</p>
-        </div>
+        </motion.div>
 
         <Form {...register}>
           <form className="space-y-6" onSubmit={register.handleSubmit(onSendMessages)}>
@@ -122,21 +133,36 @@ const PublicPage = () => {
             Suggest Messages
           </Button>
 
-          <div className="flex flex-col text-center justify-center items-center gap-3">
+          <motion.div
+            className="flex flex-col text-center justify-center items-center gap-3"
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.2,
+                },
+              },
+            }}
+          >
             {suggestedMessages.map((msg, index) => (
-              <div
+              <motion.div
                 key={index}
                 className="bg-gray-200 dark:bg-gray-700 p-4 rounded cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-200 ease-in-out"
                 onClick={() => fillMessageField(msg.message)}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
               >
                 {msg.message}
                 {index < suggestedMessages.length - 1 && <Separator orientation="horizontal" className="my-2" />}
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
