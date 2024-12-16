@@ -145,7 +145,7 @@ const Dashboard = () => {
         <h2 className="text-xl font-semibold mb-4 tracking-tight text-[#010D3E]">
           Copy your unique link
         </h2>
-        <motion.div whileHover={{ scale: 1.05 }} className="flex items-center">
+        <motion.div whileHover={{ scale: 1.0005 }} className="flex items-center">
           <input
             type="text"
             value={profileUrl}
