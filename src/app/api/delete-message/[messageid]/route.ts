@@ -7,9 +7,9 @@ import { User } from "next-auth";
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { messageid: string } }
+  context: { params: { messageid: string } }
 ) {
-  const messageId = params.messageid;
+  const { messageid: messageId } = context.params;
   await dbConnect();
 
   const session = await getServerSession(authOptions);
@@ -49,12 +49,10 @@ export async function DELETE(
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error deleting message:", error);
-
     return NextResponse.json(
       {
         success: false,
-        message: "Internal server error",
+        message: "Internal Server Error",
       },
       { status: 500 }
     );
